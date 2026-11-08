@@ -51,7 +51,7 @@ pipeline{
                     ).trim()
 
                     def coverage = sh(
-                        script:"echo '${response}' | jq .components[0].measures[0].value",
+                        script:"echo '${response}' | jq .components.measures[0].value",
                         returnStdout: true
                     ).trim().toDouble()
 
