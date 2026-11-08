@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 0
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: eureka-0
+  client:
+    service-url:
+        defaultZone: http://eureka-0.eureka-service.default.svc.cluster.local:8761/eureka
