@@ -65,27 +65,31 @@ pipeline{
 }
 
 
-        stage('Docker Build and Push'){
-            agent {
-                docker {
-                    // This image comes pre-packaged with the Docker CLI binary
-                    image 'docker:latest'
-                    // Binds the agent container to the host machine's Docker engine
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                }
-    }
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker build -t vipiiin/restaurantlisting-server:${VERSION} .'
-                sh 'docker push vipiiin/restaurantlisting-server:${VERSION}'
-            }
+stage('Docker Build and Push') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'DOCKER_HUB_CREDENTIAL', // Matches your Jenkins Credential ID exactly
+            passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', // Jenkins injects your password here
+            usernameVariable: 'DOCKERHUB_CREDENTIALS_USR'  // Jenkins injects "vipiiin" here
+        )]) {
+            
+            // Log in securely using separate username and password variables
+            sh 'echo "$DOCKERHUB_CREDENTIALS_PSW" | docker login -u "$DOCKERHUB_CREDENTIALS_USR" --password-stdin'
+            
+            // Build and push using double quotes to allow Jenkins to expand the ${VERSION} variable
+            sh "docker build -t vipiiin/restaurantlisting-server:${VERSION} ."
+            sh "docker push vipiiin/restaurantlisting-server:${VERSION}"
         }
+    }
+}
+
 
         stage('Cleanup Workspace'){
             steps {
                 deleteDir()
             }
         }
+
         stage('Update Image tag in GitOps'){
             steps {
                 checkout scmGit(branches: [[name: '*/master']],extensions:[],userRemoteConfig: [[credentialsId: 'git-ssh', url: 'git@github.com:vipin-food-delivery-app/deployment-folder.git']])
