@@ -94,6 +94,8 @@ stage('Docker Build and Push') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']],extensions:[],userRemoteConfigs: [[credentialsId: 'git-ssh', url: 'git@github.com:vipin-food-delivery-app/deployment-folder.git']])
                 script {
+                    sh 'git config user.email "jenkins-ci@yourdomain.com"'
+                    sh 'git config user.name "Jenkins CI Engine"'
                     sh '''
                     sed -i "s|image:.*|image: vipiiin/restaurantlisting-server:${VERSION}|g" aws/restaurant-manifest.yml\
                     '''
