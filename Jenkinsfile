@@ -66,6 +66,14 @@ pipeline{
 
 
         stage('Docker Build and Push'){
+            agent {
+                docker {
+                    // This image comes pre-packaged with the Docker CLI binary
+                    image 'docker:latest'
+                    // Binds the agent container to the host machine's Docker engine
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+    }
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker build -t vipiiin/restaurantlisting-server:${VERSION} .'
