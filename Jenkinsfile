@@ -44,11 +44,13 @@ pipeline{
                     def coverageThreshold = 80.0
 
                     def response = sh (
-                        script: "curl -H 'Authorization: Bearer ${token}' '${sonarQuebeUrl}/api/components/search?component=${componentKey}&metricKey=coverage'",
+                        //script: "curl -H 'Authorization: Bearer ${token}' '${sonarQuebeUrl}/api/components/search?component=${componentKey}&metricKey=coverage'",
+                        script: "curl -H 'Authorization: Bearer ${token}' '${sonarQuebeUrl}/api/measures/component?component=${componentKey}&metricKeys=coverage'",
+
                         returnStdout: true
                     ).trim()
 
-                    def coverage= sh(
+                    def coverage = sh(
                         script:"echo '${response}' | jq .components[0].measures[0].value",
                         returnStdout: true
                     ).trim().toDouble()
