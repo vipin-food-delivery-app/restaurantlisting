@@ -27,7 +27,7 @@ pipeline{
         stage('SonarQube Analysis'){
             steps{
                 sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.host.url=http://192.168.1.35:9000 \
   -Dsonar.projectKey=restaurantlisting \
   -Dsonar.token="squ_64a3467f5fbfb39728ef1855df57104180e565a5" \
   -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
