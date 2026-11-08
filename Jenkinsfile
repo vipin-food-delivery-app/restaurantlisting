@@ -40,7 +40,7 @@ pipeline{
                     def token = "squ_64a3467f5fbfb39728ef1855df57104180e565a5"
                     def sonarQuebeUrl = "http://192.168.1.35:9000"
 
-                    def componentKey = "com.vipin:restaurantlisting"
+                    def componentKey = "restaurantlisting"
                     def coverageThreshold = 80.0
 
                     def response = sh (
