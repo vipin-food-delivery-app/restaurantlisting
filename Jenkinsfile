@@ -92,7 +92,7 @@ stage('Docker Build and Push') {
 
         stage('Update Image tag in GitOps'){
             steps {
-                checkout scmGit(branches: [[name: '*/master']],extensions:[],userRemoteConfig: [[credentialsId: 'git-ssh', url: 'git@github.com:vipin-food-delivery-app/deployment-folder.git']])
+                checkout scmGit(branches: [[name: '*/master']],extensions:[],userRemoteConfigs: [[credentialsId: 'git-ssh', url: 'git@github.com:vipin-food-delivery-app/deployment-folder.git']])
                 script {
                     sh '''
                     sed -i "s|image:.*|image: vipiiin/restaurantlisting-server:${VERSION}|g" aws/restaurant-manifest.yml\
