@@ -56,11 +56,11 @@ pipeline{
                     // ).trim().toDouble()
                     // Parse using native Groovy JsonSlurper
                 def json = new groovy.json.JsonSlurper().parseText(response)
-                def coverage = json.component.measures[0].value
+                def coverage = json.component.measures[0].value.toFloat()
 
                     echo "Coverage: ${coverage}"
 
-                    if(coverage<coverageThreshold){
+                    if(coverage<coverageThreshold.toFloat()){
                         error "Code coverage is less than the threshold ${coverageThreshold}%.Aborting the pipeline."
                     }
 
