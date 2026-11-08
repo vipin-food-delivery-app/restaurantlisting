@@ -50,10 +50,13 @@ pipeline{
                         returnStdout: true
                     ).trim()
 
-                    def coverage = sh(
-                        script:"echo '${response}' | jq .components.measures[0].value",
-                        returnStdout: true
-                    ).trim().toDouble()
+                    // def coverage = sh(
+                    //     script:"echo '${response}' | jq .components.measures[0].value",
+                    //     returnStdout: true
+                    // ).trim().toDouble()
+                    // Parse using native Groovy JsonSlurper
+                def json = new groovy.json.JsonSlurper().parseText(response)
+                def coverage = json.component.measures[0].value
 
                     echo "Coverage: ${coverage}"
 
