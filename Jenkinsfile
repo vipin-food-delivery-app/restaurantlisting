@@ -56,7 +56,8 @@ pipeline{
                     // ).trim().toDouble()
                     // Parse using native Groovy JsonSlurper
                 def json = new groovy.json.JsonSlurper().parseText(response)
-                def coverage = json.component.measures[0].value.doubleValue()
+                //def coverage = json.component.measures[0].value.doubleValue()
+                def coverage = Double.parseDouble(json.component.measures[0].value.toString())
 
                     echo "Coverage: ${coverage}"
 
